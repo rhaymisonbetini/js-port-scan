@@ -9,7 +9,6 @@ const Validator = require('./validator')
 const moment = require('moment');
 class Scan {
 
-
     /**
      * This method scanner a host with a interval for a inital end final given ports.
      * Is created a loop with a Promise.all.
@@ -52,11 +51,11 @@ class Scan {
 
 
     /**
-     * this handShake make a tcp connection to a giver host and port
+     * this handShake make a tcp connection to a given host and port
      * @param {number} port Port should be >= 0 and < 65536
-     * @param {string} host ip por dns
+     * @param {string} host ip or dns
      * @param {boolean} consoler display results in console
-     * @returns
+     * @returns {Promise<{ connected: 0, msg: '', reason: '' }>}
      */
     async handShakeTcp(port, host, consoler = false) {
         let isValid = Validator.validatorDoor(port);

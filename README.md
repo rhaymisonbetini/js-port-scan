@@ -14,22 +14,22 @@ Javascript-based library for port scanning, TCP calls, UDP, IPtracer, Discover h
 ## INSTALL
 
 ```
-    npm install js-port-scan
+npm install js-port-scan
 ```
 
 ### HOW TO USE 
 
-```
+```javascript
 import JsScan from 'js-port-scan'
 ```
 
-```
+```javascript
 const JsScan = require('js-port-scan')
 ```
 
 Now you can instantiate a new Scanner class. This class extends the Scaner class that performs all the functionality
 
-```
+```javascript
 const jsScan =  new JsScan()
 
 ```
@@ -42,7 +42,7 @@ It is asynchronous and retrives an object.
 
 ```javascript
 /**
-* this handShake make a tcp connection to a giver host and port
+* this handShake make a tcp connection to a given host and port
 * @param {number} port Port should be >= 0 and < 65536
 * @param {string} host ip or dns
 * @param {boolean} consoler display results in console
