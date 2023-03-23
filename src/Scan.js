@@ -10,8 +10,8 @@ const moment = require('moment');
 class Scan {
 
     /**
-     * This method scanner a host with a interval for a inital end final given ports.
-     * Is created a loop with a Promise.all.
+    * This method scanner a host with a interval for a inital end final given ports.
+* A loopg was created to scanning the interval with handShakeTcp method.
      * Depens on your connetion and powers.
      * @param {string} host 
      * @param {number} init 

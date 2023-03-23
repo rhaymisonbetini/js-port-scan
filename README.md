@@ -44,7 +44,7 @@ using the handShakeTcp method as the function center.
 ```javascript
 /**
 * This method scanner a host with a interval for a inital end final given ports.
-* Is created a loop with a Promise.all.
+* A loopg was created to scanning the interval with handShakeTcp method.
  * Depens on your connetion and powers.
 * @param {string} host ex: www.facebook.com
 * @param {number} init initial (include) port
