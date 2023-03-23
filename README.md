@@ -46,7 +46,7 @@ using the handShakeTcp method as the function center.
 * @param {number} init initial (include) port
 * @param {number} end final ( include ) final port
 * @param {boolean} consoler display results in console
-* @returns {Array<Object<object>>}
+* @returns {Promise<Array<object>>}
 */
 async scanPorts(host, init = 0, end = 1000, consoler = false)
 ```
