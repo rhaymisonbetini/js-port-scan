@@ -17,7 +17,7 @@ class Scan {
      * @param {number} init 
      * @param {number} end 
      * @param {boolean} consoler display results in console
-     * @returns {Array<Object>}
+     * @returns {Promise<Array<object>>}
      */
     async scanPorts(host, init = 0, end = 1000, consoler = false) {
         if (end < init) {
@@ -127,7 +127,7 @@ class Scan {
      * create ip ping tracer with a 4 call
      * @param {string} host
      * @param {number} ttl
-     * @returns {string}
+     * @returns {Promise<string>}
      */
     async ipTracer(host) {
         let isHost = Validator.isIpOrHost(host);
@@ -147,7 +147,7 @@ class Scan {
     /**
      * This function retuns a ipv4 for a given host
      * @param {string} host 
-     * @returns {string}
+     * @returns {Promise<string>}
      */
     async getIpByHost(host) {
         const options = {
@@ -168,7 +168,8 @@ class Scan {
     /**
     * This function retuns a ipv4 for a given host
     * @param {string} host 
-    * @returns {string}
+    * @param {number} port
+    * @returns {Promise<string>}
     */
     async getHostByIp(host, port) {
         let isValid = Validator.validatorDoor(port);

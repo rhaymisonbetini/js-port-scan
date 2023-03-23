@@ -2,7 +2,7 @@
   <img src="./src/assets/header.jpg" width="100%" height="150"/>
 </div>
 
-# JS-PORT-SCAN
+# JS-PORT-SCAN FOR NODE.JS
 <p align="center">
    <img alt="Bower" src="https://img.shields.io/bower/l/MI?style=flat-square">
    <img alt="Bower" src="https://img.shields.io/badge/version-1.0.0-blue">
@@ -18,10 +18,6 @@ npm install js-port-scan
 ```
 
 ### HOW TO USE 
-
-```javascript
-import JsScan from 'js-port-scan'
-```
 
 ```javascript
 const JsScan = require('js-port-scan')
@@ -50,7 +46,7 @@ using the handShakeTcp method as the function center.
 * @param {number} init initial (include) port
 * @param {number} end final ( include ) final port
 * @param {boolean} consoler display results in console
-* @returns {Array<Object>}
+* @returns {Array<Object<object>>}
 */
 async scanPorts(host, init = 0, end = 1000, consoler = false)
 ```
@@ -130,7 +126,7 @@ it returns a string informed by the ping process
 * create ip ping tracer with a 4 call
 * @param {string} host
 * @param {number} ttl
-* @returns {string}
+* @returns {Promise<string>}
 */
 async ipTracer(host)
 ```
@@ -157,7 +153,7 @@ This method return an ip from a given host
 /**
 * This function retuns a ipv4 for a given host
 * @param {string} host 
-* @returns {string}
+* @returns {Promise<string>}
 */
 async getIpByHost(host) 
 ```
@@ -168,9 +164,10 @@ This method return a host from a given IP
 
 ```javascript
 /**
-* This function retuns a ipv4 for a given host
+* This function retuns a host for a given ip and port
 * @param {string} host 
-* @returns {string}
+* @param {number} port
+* @returns {Promise<string>}
 */
 async getHostByIp(host, port) 
 ```
