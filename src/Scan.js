@@ -103,7 +103,7 @@ class Scan {
      * @param {number} port
      * @param {string} host
      * @param {string} stringBytes
-     * @returns any
+     * @returns {Promise<any>}
      */
     async udpScanner(port, host, stringBytes = null) {
         let isValid = Validator.validatorDoor(port);
@@ -124,10 +124,10 @@ class Scan {
     }
 
     /**
-     * create ip tracer with a 4 call
+     * create ip ping tracer with a 4 call
      * @param {string} host
      * @param {number} ttl
-     * @returns string
+     * @returns {string}
      */
     async ipTracer(host) {
         let isHost = Validator.isIpOrHost(host);
