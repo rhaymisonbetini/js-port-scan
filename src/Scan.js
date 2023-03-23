@@ -111,7 +111,7 @@ class Scan {
             return isValid;
         }
 
-        const buffer = new Buffer.from(stringBytes ?? 'UDPScan');
+        const buffer = new Buffer(stringBytes);
         const socket = dgram.createSocket('udp4');
         let result = { host: host, port: port, type: 'UDP', error: '' };
         let deferred = Q.defer();
