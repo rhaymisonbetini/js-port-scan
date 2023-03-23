@@ -6,37 +6,81 @@ const Q = require('q');
 const dns = require('dns');
 const { exec } = require("child_process");
 const Validator = require('./validator')
+const moment = require('moment');
 class Scan {
+
+
+    /**
+     * This method scanner a host with a interval for a inital end final given ports.
+     * Is created a loop with a Promise.all.
+     * Depens on your connetion and powers.
+     * @param {string} host 
+     * @param {number} init 
+     * @param {number} end 
+     * @param {boolean} consoler display results in console
+     * @returns 
+     */
+    async scanPorts(host, init = 0, end = 1000, consoler = false) {
+        if (end < init) {
+            return 'The final Door needs to be less or equal the inital door';
+        }
+        let report = []
+        let reportConnected = [];
+        let reportRefused = [];
+        consoler ? console.log('[SCAN-INIT] - SCAN WAS CREATED') : null
+        let initalTimer = moment().format('YYYY-MM-DD HH:mm:ss')
+        for (let scanner = init; scanner <= end; scanner++) {
+            consoler ? console.log(`[SCANING - PORT ${scanner}]`) : null
+            let scan = await this.handShakeTcp(scanner, host);
+            if (scan.connected) {
+                reportConnected.push(scan)
+            } else {
+                reportRefused.push(scan)
+            }
+
+        }
+        consoler ? console.log('[SCAN-ENDS] - SCAN WAS FINISHED') : null
+        let endTimer = moment().format('YYYY-MM-DD HH:mm:ss')
+        report.push({
+            init: initalTimer,
+            end: endTimer
+        })
+        report.push(reportConnected);
+        report.push(reportRefused);
+        return report
+    }
+
+
     /**
      * this handShake make a tcp connection to a giver host and port
      * @param {number} port Port should be >= 0 and < 65536
      * @param {string} host ip por dns
+     * @param {boolean} consoler display results in console
      * @returns
      */
-    async handShakeTcp(port, host, consoler = false, timeOut) {
-        let isDoorValid = Validator.validatePortNumber(port);
-        if (!isDoorValid) {
-            return { conected: 0, msg: '', reason: 'The given doors is not valid! Interval must be >= 0 and < 65536' }
+    async handShakeTcp(port, host, consoler = false) {
+        let isValid = Validator.validatorDoor(port);
+        if (!isValid.valid) {
+            return isValid;
         }
-
         const socket = new net.Socket();
         socket.connect(port, host);
-        let response = { conected: 0, msg: '', reason: '' }
+        let response = { connected: 0, msg: '', reason: '' }
         response = await new Promise((resolve, reject) => {
             socket.on('connect', async () => {
-                response.conected = true;
+                response.connected = true;
                 response.msg = `Established a TCP connection with ${host}:${port}`
                 consoler ? console.log(response) : null;
                 resolve(response);
             });
 
             socket.on('error', async (error) => {
-                response.conected = true;
+                response.connected = false;
                 response.msg = `Erro to established a TCP connection with ${host}:${port}`
                 response.reason = error.message.indexOf('ECONNREFUSED') !== -1 ?
-                    'Refused' : error.message.indexOf('EHOSTUNREACH') !== -1 ?
-                        'Host Unreachable' : error.message.indexOf('ETIMEDOUT') !== -1 ?
-                            'Etimedout' : null
+                    'ECONNREFUSED' : error.message.indexOf('EHOSTUNREACH') !== -1 ?
+                        'EHOSTUNREACH' : error.message.indexOf('ETIMEDOUT') !== -1 ?
+                            'ETIMEDOUT' : null
 
                 consoler ? console.log(response) : null;
                 reject(response);
@@ -63,10 +107,11 @@ class Scan {
      * @returns any
      */
     async udpScanner(port, host, stringBytes = null) {
-        let isDoorValid = Validator.validatePortNumber(port);
-        if (!isDoorValid) {
-            return { conected: 0, msg: '', reason: 'The given doors is not valid! Interval must be >= 0 and < 65536' }
+        let isValid = Validator.validatorDoor(port);
+        if (!isValid.valid) {
+            return isValid;
         }
+
         const buffer = new Buffer.from(stringBytes ?? 'UDPScan');
         const socket = dgram.createSocket('udp4');
         let result = { host: host, port: port, type: 'UDP', error: '' };
@@ -100,11 +145,10 @@ class Scan {
         })
     }
 
-
     /**
      * This function retuns a ipv4 for a given host
      * @param {string} host 
-     * @returns 
+     * @returns {string}
      */
     async getIpByHost(host) {
         const options = {
@@ -122,11 +166,24 @@ class Scan {
         return ip;
     }
 
-    async getHostByIp() {
-        dns.lookupService('127.0.0.1', 22, (err, hostname, service) => {
-            console.log(hostname, service);
-            // Prints: localhost ssh
-        });
+    /**
+    * This function retuns a ipv4 for a given host
+    * @param {string} host 
+    * @returns {string}
+    */
+    async getHostByIp(host, port) {
+        let isValid = Validator.validatorDoor(port);
+        if (!isValid.valid) {
+            return isValid;
+        }
+        let hostName = await new Promise((resolve, reject) => {
+            dns.lookupService(host, port, (err, hostname, service) => {
+                resolve(hostname)
+            });
+        }).catch(erro => {
+            reject(erro);
+        })
+        return hostName;
     }
 }
 
