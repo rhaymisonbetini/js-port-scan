@@ -3,20 +3,20 @@
 const net = require('net');
 const dgram = require('dgram');
 const Q = require('q');
-const ping = require('net-ping');
+const dns = require('dns');
+const { exec } = require("child_process");
 const Validator = require('./validator')
-
 class Scan {
     /**
      * this handShake make a tcp connection to a giver host and port
-     * @param {number} port Port should be >= 0 and < 65536 
+     * @param {number} port Port should be >= 0 and < 65536
      * @param {string} host ip por dns
-     * @returns 
+     * @returns
      */
     async handShakeTcp(port, host, consoler = false, timeOut) {
         let isDoorValid = Validator.validatePortNumber(port);
-        if(!isDoorValid) {
-           return { conected: 0, msg: '', reason: 'The given doors is not valid! Interval must be >= 0 and < 65536' }
+        if (!isDoorValid) {
+            return { conected: 0, msg: '', reason: 'The given doors is not valid! Interval must be >= 0 and < 65536' }
         }
 
         const socket = new net.Socket();
@@ -55,17 +55,17 @@ class Scan {
     }
 
     /**
-     * This method create a updCall. Upd call do not need return from the destination. 
+     * This method create a updCall. Upd call do not need return from the destination.
      * So is not possible verify the return of the connection, only if we have error.
-     * @param {number} port 
-     * @param {string} host 
-     * @param {string} stringBytes 
+     * @param {number} port
+     * @param {string} host
+     * @param {string} stringBytes
      * @returns any
      */
     async udpScanner(port, host, stringBytes = null) {
         let isDoorValid = Validator.validatePortNumber(port);
-        if(!isDoorValid) {
-           return { conected: 0, msg: '', reason: 'The given doors is not valid! Interval must be >= 0 and < 65536' }
+        if (!isDoorValid) {
+            return { conected: 0, msg: '', reason: 'The given doors is not valid! Interval must be >= 0 and < 65536' }
         }
         const buffer = new Buffer.from(stringBytes ?? 'UDPScan');
         const socket = dgram.createSocket('udp4');
@@ -77,6 +77,56 @@ class Scan {
             socket.close();
         })
         return deferred.promise
+    }
+
+    /**
+     * create ip tracer with a 4 call
+     * @param {string} host
+     * @param {number} ttl
+     * @returns string
+     */
+    async ipTracer(host) {
+        let isHost = Validator.isIpOrHost(host);
+        if (isHost == 'host') {
+            host = await this.getIpByHost(host);
+        }
+        return new Promise((resolve, reject) => {
+            exec(`ping ${host}`, (error, stdout, stderr) => {
+                if (error) {
+                    reject(error.message)
+                }
+                resolve(stdout)
+            });
+        })
+    }
+
+
+    /**
+     * This function retuns a ipv4 for a given host
+     * @param {string} host 
+     * @returns 
+     */
+    async getIpByHost(host) {
+        const options = {
+            family: 4,
+            hints: dns.ADDRCONFIG | dns.V4MAPPED,
+        };
+        let ip = null
+        ip = await new Promise((resolve, reject) => {
+            dns.lookup(host, options, (err, address, family) => {
+                resolve(address)
+            }, err => reject(err));
+        }).catch((_) => {
+            return err
+        })
+        return ip;
+    }
+
+    async getHostByIp() {
+        dns.lookupService('127.0.0.1', 22, (err, hostname, service) => {
+            console.log(hostname, service);
+            // Prints: localhost ssh
+        });
     }
 }
 

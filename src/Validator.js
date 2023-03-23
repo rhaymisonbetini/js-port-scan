@@ -9,6 +9,10 @@ class Validator {
     static validatePortNumber(port) {
         return port < 0 || port >= 65536 ? false : true
     }
+
+    static isIpOrHost(host) {
+        return host.includes('www') ? 'host' : 'ip'
+    }
 }
 
 module.exports = Validator
