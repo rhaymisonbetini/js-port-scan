@@ -17,7 +17,7 @@ class Scan {
      * @param {number} init 
      * @param {number} end 
      * @param {boolean} consoler display results in console
-     * @returns 
+     * @returns {Array<Object>}
      */
     async scanPorts(host, init = 0, end = 1000, consoler = false) {
         if (end < init) {
