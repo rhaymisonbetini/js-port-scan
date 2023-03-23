@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./src/assets/header.jpg" width="600" height="300"/>
+  <img src="./src/assets/header.jpg" width="100%" height="300"/>
 </div>
 
 # JS-PORT-SCAN
