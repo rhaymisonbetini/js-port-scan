@@ -5,7 +5,7 @@ const dgram = require('dgram');
 const Q = require('q');
 const dns = require('dns');
 const { exec } = require("child_process");
-const Validator = require('./validator')
+const Validator = require('./Validator.js')
 const moment = require('moment');
 class Scan {
 

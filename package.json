@@ -1,6 +1,6 @@
 {
   "name": "js-port-scan",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "scanner port, make tcp, udp, icmp, ping in javascript",
   "main": "index.js",
   "scripts": {
