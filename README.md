@@ -119,7 +119,7 @@ async udpScanner(port, host, stringBytes = null)
 
 ### tracer
 This function provides a tracer to destinantion
-base on node-tracer library
+library-based 
 
 ```javascript
 /**
