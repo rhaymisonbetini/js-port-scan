@@ -5,8 +5,10 @@ const dgram = require('dgram');
 const Q = require('q');
 const dns = require('dns');
 const { exec } = require("child_process");
-const Validator = require('./Validator.js')
+const Traceroute = require('nodejs-traceroute');
 const moment = require('moment');
+const Validator = require('./Validator.js')
+
 class Scan {
 
     /**
@@ -121,6 +123,32 @@ class Scan {
             socket.close();
         })
         return deferred.promise
+    }
+
+    /**
+     * This function create a trace untill the destination
+     * @param {string } host ex: www.facebook.com
+     * @param {boolean} consoler  if you want to display in console every tracer
+     * @returns {Promisse<Array<string>>}
+     */
+    async tracer(host, consoler = false) {
+        const tracer = new Traceroute();
+        tracer.trace(host);
+        let tracerRacing = []
+        await new Promise((resolve, reject) => {
+            tracer.on('hop', (hop) => {
+                tracerRacing.push({ trace: `${JSON.stringify(hop)}` })
+                consoler ? console.log(`hop: ${JSON.stringify(hop)}`) : null;
+            })
+                .on('close', (code) => {
+                    tracerRacing.push({ finish: `code ${code}` })
+                    consoler ? console.log(`close: code ${code}`) : null;
+                    resolve();
+                });
+        }).catch(err => {
+            tracerRacing.push({ message: err })
+        })
+        return tracerRacing
     }
 
     /**

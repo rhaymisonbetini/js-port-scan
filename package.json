@@ -1,6 +1,6 @@
 {
   "name": "js-port-scan",
-  "version": "1.1.3",
+  "version": "1.3.3",
   "description": "scanner port, make tcp, udp, icmp, ping in javascript",
   "main": "index.js",
   "scripts": {
@@ -28,10 +28,13 @@
   "dependencies": {
     "dgram": "^1.0.1",
     "dns": "^0.2.2",
+    "dns-then": "^0.1.0",
     "moment": "^2.29.4",
     "net": "^1.0.2",
     "net-ping": "^1.2.3",
-    "q": "^1.5.1"
+    "nodejs-traceroute": "^2.0.1",
+    "q": "^1.5.1",
+    "raw-socket": "^1.7.0"
   },
   "devDependencies": {}
 }

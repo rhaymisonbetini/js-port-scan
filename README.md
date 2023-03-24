@@ -117,6 +117,29 @@ this method will only return an error if there is a problem.
 async udpScanner(port, host, stringBytes = null) 
 ```
 
+### tracer
+This function provides a tracer to destinantion
+base on node-tracer library
+
+```javascript
+/**
+* This function create a trace untill the destination
+* @param {string } host ex: www.facebook.com
+* @param {boolean} consoler  if you want to display in console every tracer
+* @returns {Promisse<Array<string>>}
+*/
+```
+
+return exemple:
+
+```json
+{"mesg":[{"trace":"{\"hop\":1,\"rtt1\":\"1 ms\",\"rtt2\":\"1 ms\",\"rtt3\":\"<1 ms\",\"ip\":\"localhost\"}"},
+{"trace":"{\"hop\":2,\"rtt1\":\"15 ms\",\"rtt2\":\"1 ms\",\"rtt3\":\"1 ms\",\"ip\":\"10.255.255.5\"}"},
+{"trace":"{\"hop\":3,\"rtt1\":\"2 ms\",\"rtt2\":\"3 ms\",\"rtt3\":\"2 ms\",\"ip\":\"198.19.0.225\"}"},
+{"trace":"{\"hop\":4,\"rtt1\":\"5 ms\",\"rtt2\":\"3 ms\",\"rtt3\":\"2 ms\",\"ip\":\"198.18.0.33\"}"},
+{"finish":"code 0"}]}
+```
+
 ### ipTracer
 This method pings the destination and creates a tracer. 
 it returns a string informed by the ping process
