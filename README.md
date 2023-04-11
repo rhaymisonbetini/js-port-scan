@@ -5,7 +5,7 @@
 # JS-PORT-SCAN FOR NODE.JS
 <p align="center">
    <img src="https://img.shields.io/bower/l/MI?style=flat-square">
-   <img src="https://img.shields.io/badge/version-1.3.5-blue">
+   <img src="https://img.shields.io/badge/version-1.3.6-blue">
    <img src="https://img.shields.io/badge/coverage-100%25-yellowgree" alt="coverage">
    <img src="https://img.shields.io/github/issues/rhaymisonbetini/js-port-scan.svg">
    <img src="https://img.shields.io/github/issues-closed/rhaymisonbetini/js-port-scan.svg">
@@ -31,7 +31,6 @@
 Javascript-based library for port scanning, TCP calls, UDP, IPtracer, Discover host by ip and ip by host
 
 ## INSTALL
-
 ```
 npm install js-port-scan
 ```
