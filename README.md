@@ -5,7 +5,9 @@
 # JS-PORT-SCAN FOR NODE.JS
 <p align="center">
    <img src="https://img.shields.io/bower/l/MI?style=flat-square">
-   <img src="https://img.shields.io/badge/version-1.3.6-blue">
+   <img src="https://img.shields.io/badge/version-1.3.7-blue">
+   <img alt="npm" src="https://img.shields.io/npm/dm/js-port-scan">
+   <img alt="npm" src="https://img.shields.io/npm/dw/js-port-scan">
    <img src="https://img.shields.io/badge/coverage-100%25-yellowgree" alt="coverage">
    <img src="https://img.shields.io/github/issues/rhaymisonbetini/js-port-scan.svg">
    <img src="https://img.shields.io/github/issues-closed/rhaymisonbetini/js-port-scan.svg">
